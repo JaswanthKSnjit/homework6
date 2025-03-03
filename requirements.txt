@@ -1,6 +1,7 @@
 astroid==3.3.8
 coverage==7.6.12
 dill==0.3.9
+faker==16.6.0
 iniconfig==2.0.0
 isort==6.0.0
 mccabe==0.7.0
