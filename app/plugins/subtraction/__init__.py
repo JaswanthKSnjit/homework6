@@ -7,4 +7,7 @@ class SubtractCommand(Command):
         self.numbers = list(map(float, args))
 
     def execute(self):
-        return self.numbers[0] - sum(self.numbers[1:])
+        result = self.numbers[0]
+        for num in self.numbers[1:]:
+            result -= num
+        return result

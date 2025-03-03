@@ -14,6 +14,7 @@ class Calculator:
         plugins_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "plugins"))
 
         if not os.path.exists(plugins_path):  # Ensure plugin directory exists
+            Calculator.COMMANDS.clear()  # Fix: Clear COMMANDS if plugins directory is missing
             print("Plugin directory not found.")
             return  
 
@@ -33,7 +34,9 @@ class Calculator:
                         if isinstance(attr, type) and issubclass(attr, Command) and attr is not Command:
                             Calculator.COMMANDS[foldername] = attr
                 except Exception as e:
-                    print(f"Failed to load plugin {foldername}: {e}")  # Debugging plugin failures
+                    print(f"Failed to load plugin {foldername}: {e}")  
+                    if foldername in Calculator.COMMANDS:  # Fix: Ensure failed plugins are not retained
+                        del Calculator.COMMANDS[foldername]  
 
     @staticmethod
     def compute(operation, *args):
@@ -101,5 +104,5 @@ class Calculator:
                             print(f"Error: {e}")
                     else:
                         print("Invalid command. Type 'menu' to see available commands.")
-            except Exception as e:  # Handling uncovered exception case
-                print(f"Unexpected error: {e}")  # This line was missing coverage
+            except Exception as e:  
+                print(f"Unexpected error: {e}")  
