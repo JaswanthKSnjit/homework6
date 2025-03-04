@@ -431,27 +431,8 @@ def test_load_plugins_delete_failed_plugin_entry(monkeypatch, capsys):
     captured = capsys.readouterr()
     assert "Failed to load plugin test_plugin" in captured.out
 
-def test_worker_exception_handling(monkeypatch):
-    """Test the exception handling in the worker function."""
-    Calculator.COMMANDS.clear()
-    
-    # Create a command class that raises an exception during execution
-    class ExceptionCommand:
-        def __init__(self, *args):
-            pass
-        
-        def execute(self):
-            raise RuntimeError("Test worker exception")
-    
-    # Register our command
-    Calculator.COMMANDS["exception_op"] = ExceptionCommand
-    
-    # Run the compute method, which should trigger the worker exception handling
-    with pytest.raises(RuntimeError, match="Test worker exception"):
-        Calculator.compute("exception_op", 1)
-
-        def test_worker_function_exception_handling():
-          """Test the exception handling in the worker function directly."""
+def test_worker_function_exception_handling():
+    """Test the exception handling in the worker function directly."""
     Calculator.COMMANDS.clear()
     
     # Create a command class that raises an exception during __init__
@@ -468,3 +449,23 @@ def test_worker_exception_handling(monkeypatch):
     # This should raise the exception from __init__
     with pytest.raises(RuntimeError, match="Test error in command init"):
         Calculator.compute("init_error_op", 1)
+
+def test_command_execute_exception():
+    """Test the exception handling in worker function (lines 51-55)."""
+    Calculator.COMMANDS.clear()
+    
+    # Create a command that raises an exception during execute()
+    class BrokenCommand:
+        def __init__(self, *args):
+            pass
+        
+        def execute(self):
+            # Deliberately raise a ZeroDivisionError
+            return 1/0
+    
+    # Register our command
+    Calculator.COMMANDS["broken"] = BrokenCommand
+    
+    # This should raise the ZeroDivisionError from execute()
+    with pytest.raises(ZeroDivisionError):
+        Calculator.compute("broken", 1)

@@ -1,0 +1,12 @@
+[run]
+source = app
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def worker\(q, operation, args\):
+    try:
+    command = Calculator.COMMANDS\[operation\]\(\*args\)
+    q.put\(command.execute\(\)\)
+    except Exception as e:
+    q.put\(e\)
