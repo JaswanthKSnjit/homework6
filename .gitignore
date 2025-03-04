@@ -85,3 +85,6 @@ docs/_build/
 *.idea/
 *.sublime-project
 *.sublime-workspace
+
+# Ignore environment files
+.env
