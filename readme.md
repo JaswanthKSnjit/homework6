@@ -15,7 +15,7 @@
 4. Activate Python Virtual Environments <code> source venv/bin/activate </code>
 5. Install dependencies <code> pip install -r requirements.txt </code>
 6. Set up Environment Variables<br>
--- Create a .env file in root directory and add the following 
+-- Create a .env file in root directory and add the following<br>
 <code>APP_ENV=development<br>
 SECRET_KEY=mysecretkey<br>
 DEBUG=True </code>
