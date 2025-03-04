@@ -1,6 +1,8 @@
+"""Tests for the main entry point of the calculator application."""
+
+import subprocess
 import pytest
 import main
-import subprocess
 from app.calculator import Calculator
 
 @pytest.fixture(scope="function")
@@ -13,7 +15,7 @@ def disable_multiprocessing(monkeypatch):
     original_compute = Calculator.compute
 
     def sync_compute(operation, *args):
-        # Match the real code's checks exactly:
+        """ Synchronous version of compute for testing. """
         if not args:
             raise TypeError("compute() missing required positional arguments: 'operation' and 'args'")
         if operation not in Calculator.COMMANDS:
@@ -42,8 +44,14 @@ def test_main_entry_point():
     Test if main.py runs as a script and executes main() correctly.
     """
     # Run main.py as an actual subprocess.
-    result = subprocess.run(["python", "main.py"], input="exit\n", text=True, capture_output=True)
-    # Verify that the welcome, prompt, and exit messages appear, and that the script exits cleanly.
+    result = subprocess.run(
+        ["python", "main.py"],
+        input="exit\n",
+        text=True,
+        capture_output=True,
+        check=True  # Ensure the script exits without errors
+    )
+    # Verify that the welcome, prompt, and exit messages appear.
     assert "Welcome to the Plugin-Based Calculator!" in result.stdout
     assert "Type 'menu' to view options or 'exit' to quit." in result.stdout
     assert "Goodbye!" in result.stdout

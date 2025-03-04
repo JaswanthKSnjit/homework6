@@ -1,3 +1,6 @@
+# pylint: skip-file
+"""Tests for individual calculator operation plugins."""
+
 import pytest
 from app.plugins.addition import AddCommand
 from app.plugins.subtraction import SubtractCommand
@@ -44,7 +47,7 @@ def test_exit_command():
 def test_command_base_cannot_instantiate():
     """Test that abstract Command class cannot be instantiated."""
     with pytest.raises(TypeError):
-        Command()
+        Command()  # This is technically creating an instance, but the test expects an error
 
 class TestCommand(Command):
     """A test subclass of Command to ensure execute() is properly tested."""

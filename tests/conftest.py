@@ -1,6 +1,8 @@
+"""Configuration and fixtures for pytest."""
+
+import decimal
 import pytest
 from faker import Faker
-from decimal import Decimal
 from app.calculator import Calculator
 
 fake = Faker()
@@ -22,12 +24,12 @@ def generate_test_data(num_records):
     test_cases = []
 
     for _ in range(num_records):
-        num1 = Decimal(fake.random_int(min=-100, max=100))
-        num2 = Decimal(fake.random_int(min=-100, max=100))
+        num1 = decimal.Decimal(fake.random_int(min=-100, max=100))
+        num2 = decimal.Decimal(fake.random_int(min=-100, max=100))
         operation = fake.random_element(elements=operations)
 
         if operation == "division" and num2 == 0:
-            num2 = Decimal(1)
+            num2 = decimal.Decimal(1)
 
         try:
             result = Calculator.compute(operation, float(num1), float(num2))
@@ -38,6 +40,7 @@ def generate_test_data(num_records):
     return test_cases
 
 def pytest_addoption(parser):
+    """Add command line options to pytest."""
     parser.addoption(
         "--num_records",
         action="store",

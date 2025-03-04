@@ -1,8 +1,11 @@
+"""Tests for dynamically generating and executing calculator operations."""
+
 import pytest
 from app.calculator import Calculator
 
 @pytest.fixture(autouse=True)
 def reload_real_plugins():
+    """Clear out any mocked plugins and load the real ones."""
     # Clear out any mocked plugins and load the real ones
     Calculator.COMMANDS.clear()
     Calculator.load_plugins()
