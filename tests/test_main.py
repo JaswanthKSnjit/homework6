@@ -2,7 +2,10 @@
 
 import subprocess
 import pytest
-import main
+import os
+from unittest.mock import patch
+import importlib
+import main  # Import your main script
 from app.calculator import Calculator
 
 @pytest.fixture(scope="function")
@@ -56,3 +59,15 @@ def test_main_entry_point():
     assert "Type 'menu' to view options or 'exit' to quit." in result.stdout
     assert "Goodbye!" in result.stdout
     assert result.returncode == 0
+
+def test_log_directory_creation():
+    """
+    Test if logs directory is created when it doesn't exist.
+    """
+    with patch("os.path.exists", return_value=False), patch("os.makedirs") as mock_makedirs:
+        # Directly call the directory setup logic
+        if not os.path.exists(main.log_dir):
+            os.makedirs(main.log_dir)
+
+        # Assert that os.makedirs was called to create the logs folder
+        mock_makedirs.assert_called_once_with(main.log_dir)

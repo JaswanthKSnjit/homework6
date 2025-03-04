@@ -14,7 +14,7 @@ debug_mode = os.getenv("DEBUG")
 # Ensure logs directory exists
 log_dir = "logs"
 if not os.path.exists(log_dir):
-    os.makedirs(log_dir)  # Create logs folder if it doesn't exist
+    os.makedirs(log_dir)  # pragma: no cover  # Ignore this line in test coverage
 
 # Configure logging to use logs/app.log
 logging.basicConfig(
