@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 """Tests for the main entry point of the calculator application."""
 
 import subprocess
